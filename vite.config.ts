@@ -6,6 +6,7 @@ export default defineConfig({
   base: "./",
   plugins: [tailwindcss()],
   build: {
+    chunkSizeWarningLimit: 900, // maplibre is one large lib; already in its own chunk
     rollupOptions: {
       output: {
         // split the big libraries into their own cacheable chunks
