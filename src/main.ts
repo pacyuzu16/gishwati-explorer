@@ -1,10 +1,15 @@
 import "./style.css";
 import { MapManager } from "./map/MapManager";
-import { initTabs, initLayerPanel, initWildlife, renderKmgbf } from "./ui/panels";
+import { initTabs, initLayerPanel, initWildlife, renderKmgbf, renderAbout } from "./ui/panels";
 import { renderTrendChart, renderLossChart } from "./ui/charts";
 import { initStory } from "./ui/story";
-import { StubMlProvider } from "./lib/ml";
-import type { MlResult } from "./lib/types";
+import { initFirePanel } from "./ui/firePanel";
+import { icon } from "./lib/icons";
+
+/* ---- Hydrate inline icons (replaces all emoji) ---- */
+document.querySelectorAll<HTMLElement>("[data-icon]").forEach((el) => {
+  el.innerHTML = icon(el.dataset.icon!, el.dataset.iconCls || "h-5 w-5");
+});
 
 const mm = new MapManager("map");
 
@@ -12,14 +17,32 @@ const mm = new MapManager("map");
 initTabs();
 initWildlife();
 renderKmgbf();
+renderAbout();
 renderTrendChart();
 renderLossChart();
 initStory(mm);
+initFirePanel();
 
 mm.map.on("load", () => {
   initLayerPanel(mm);
   updateYear(+yearInput.value);
 });
+
+/* ---- Landing / home navigation ---- */
+const landing = document.getElementById("landing")!;
+const showApp = () => {
+  landing.classList.add("opacity-0", "pointer-events-none");
+  setTimeout(() => {
+    landing.classList.add("hidden");
+    mm.map.resize(); // ensure correct sizing after the overlay is gone
+  }, 350);
+};
+const showHome = () => {
+  landing.classList.remove("hidden");
+  requestAnimationFrame(() => landing.classList.remove("opacity-0", "pointer-events-none"));
+};
+document.getElementById("enter-btn")!.addEventListener("click", showApp);
+document.getElementById("home-btn")!.addEventListener("click", showHome);
 
 /* ---- Time slider + play ---- */
 const yearInput = document.getElementById("year") as HTMLInputElement;
@@ -39,36 +62,24 @@ playBtn.addEventListener("click", () => {
   if (playing) {
     clearInterval(playing);
     playing = 0;
-    playBtn.textContent = "▶";
+    playBtn.innerHTML = icon("play", "h-4 w-4");
     return;
   }
-  playBtn.textContent = "⏸";
+  playBtn.innerHTML = icon("pause", "h-4 w-4");
   let y = +yearInput.min;
   yearInput.value = String(y);
   updateYear(y);
   playing = window.setInterval(() => {
     y++;
-    if (y > +yearInput.max) { clearInterval(playing); playing = 0; playBtn.textContent = "▶"; return; }
+    if (y > +yearInput.max) {
+      clearInterval(playing);
+      playing = 0;
+      playBtn.innerHTML = icon("play", "h-4 w-4");
+      return;
+    }
     yearInput.value = String(y);
     updateYear(y);
   }, 600);
-});
-
-/* ---- ML panel ---- */
-const ml = new StubMlProvider();
-const mlOut = document.getElementById("ml-out")!;
-const showMl = (r: MlResult) => {
-  mlOut.innerHTML = `<div class="text-xs text-slate-400">${r.label}</div>
-    <div class="text-xl font-bold text-emerald-300">${r.value}</div>
-    <p class="mt-1 text-xs text-slate-400">${r.detail}</p>`;
-};
-document.getElementById("ndvi-btn")!.addEventListener("click", async () => {
-  mlOut.textContent = "Analysing current view…";
-  showMl(await ml.ndvi(mm.bbox()));
-});
-document.getElementById("risk-btn")!.addEventListener("click", async () => {
-  mlOut.textContent = "Running model…";
-  showMl(await ml.deforestationRisk(mm.bbox()));
 });
 
 /* ---- Theme toggle ---- */
@@ -81,23 +92,27 @@ function toast(msg: string) {
   const t = document.createElement("div");
   t.textContent = msg;
   t.className =
-    "fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold shadow-lg";
+    "fixed left-1/2 top-4 z-[60] -translate-x-1/2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold shadow-lg";
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2000);
 }
 
 document.getElementById("export-btn")!.addEventListener("click", () => {
   mm.exportImage();
-  toast("Map image downloaded 📷");
+  toast("Map image downloaded");
 });
 
 document.getElementById("share-btn")!.addEventListener("click", async () => {
   const url = window.location.href;
   const data = { title: "Gishwati Restoration Explorer", text: "A Rwandan forest's comeback — RCMRD Arts & Maps 2026", url };
   if (navigator.share) {
-    try { await navigator.share(data); } catch { /* user cancelled */ }
+    try {
+      await navigator.share(data);
+    } catch {
+      /* user cancelled */
+    }
   } else {
     await navigator.clipboard.writeText(url);
-    toast("Link copied to clipboard 🔗");
+    toast("Link copied to clipboard");
   }
 });

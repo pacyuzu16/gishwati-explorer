@@ -1,0 +1,37 @@
+{
+  "name": "Algerian Forest Fires \u2014 fire-risk logistic regression",
+  "source": "Algerian Forest Fires Dataset (Kaggle / UCI, ODC Public Domain)",
+  "features": [
+    "Temperature",
+    "RH",
+    "Ws",
+    "Rain"
+  ],
+  "units": [
+    "\u00b0C",
+    "% RH",
+    "km/h",
+    "mm"
+  ],
+  "mean": [
+    32.1523,
+    62.0412,
+    15.4938,
+    0.763
+  ],
+  "std": [
+    3.6206,
+    14.7976,
+    2.8056,
+    1.9991
+  ],
+  "weights": [
+    1.067,
+    -0.6207,
+    0.2789,
+    -3.7038
+  ],
+  "bias": -0.4121,
+  "test_accuracy": 0.776,
+  "n_samples": 243
+}

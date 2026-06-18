@@ -5,36 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Gishwati Restoration Explorer · RCMRD Arts & Maps 2026</title>
     <meta name="description" content="Interactive map of forest loss & recovery in Gishwati-Mukura National Park, Rwanda — acting locally for global impact." />
-    <!-- Social preview (helps when sharing the link for People's Choice voting) -->
     <meta property="og:title" content="Gishwati Restoration Explorer" />
     <meta property="og:description" content="A Rwandan forest's comeback for the planet — RCMRD Arts & Maps 2026, Acting Locally for Global Impact." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="./social-preview.png" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body class="h-full overflow-hidden bg-slate-900 text-slate-100">
+  <body class="h-full overflow-hidden bg-slate-950 text-slate-100">
+    <!-- ===================== LANDING / HOME ===================== -->
+    <section id="landing" class="absolute inset-0 z-50 overflow-y-auto transition-opacity duration-300">
+      <div class="relative min-h-full w-full bg-gradient-to-br from-emerald-950 via-slate-950 to-slate-900">
+        <div class="pointer-events-none absolute inset-0 opacity-20"
+             style="background-image:radial-gradient(circle at 20% 20%, #2a9d8f 0, transparent 40%), radial-gradient(circle at 80% 70%, #1f5a43 0, transparent 45%)"></div>
+
+        <div class="relative mx-auto flex min-h-full max-w-5xl flex-col px-6 py-10">
+          <!-- top badges -->
+          <div class="flex items-center justify-between text-xs text-emerald-300/80">
+            <span class="rounded-full border border-emerald-500/30 px-3 py-1">RCMRD Arts &amp; Maps Competition 2026</span>
+            <span class="hidden sm:block">Professional · Forestry</span>
+          </div>
+
+          <!-- hero -->
+          <div class="flex flex-1 flex-col justify-center py-12">
+            <p class="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-emerald-400">
+              <span data-icon="leaf" data-icon-cls="h-4 w-4"></span> Acting Locally for Global Impact
+            </p>
+            <h1 class="max-w-3xl text-4xl font-black leading-tight sm:text-6xl">
+              Gishwati <span class="text-emerald-400">Reborn</span>
+            </h1>
+            <p class="mt-5 max-w-2xl text-lg text-slate-300">
+              A data story of a Rwandan montane forest's collapse and comeback — mapped with
+              authoritative Earth-observation data, and a machine-learning model that links a
+              warming climate to the fire risk facing the restored forest.
+            </p>
+
+            <!-- stat cards -->
+            <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <div class="text-2xl font-bold text-emerald-400">2,810<span class="text-sm font-normal text-slate-400"> ha</span></div>
+                <div class="mt-1 text-xs text-slate-400">Forest cover in 2000</div>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <div class="text-2xl font-bold text-red-400">309<span class="text-sm font-normal text-slate-400"> ha</span></div>
+                <div class="mt-1 text-xs text-slate-400">Lost 2001–2023</div>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <div class="text-2xl font-bold text-amber-400">263</div>
+                <div class="mt-1 text-xs text-slate-400">Mapped loss events</div>
+              </div>
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <div class="text-2xl font-bold text-emerald-400">~89%</div>
+                <div class="mt-1 text-xs text-slate-400">Forest retained</div>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-10 flex flex-wrap items-center gap-4">
+              <button id="enter-btn" class="group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-emerald-400">
+                Enter the Explorer
+                <span data-icon="arrowRight" data-icon-cls="h-5 w-5 transition-transform group-hover:translate-x-1"></span>
+              </button>
+              <span class="text-xs text-slate-500">Interactive map · time-lapse · statistics · ML fire-risk</span>
+            </div>
+          </div>
+
+          <!-- data sources footer -->
+          <div class="border-t border-white/10 pt-5 text-xs text-slate-500">
+            <span class="text-slate-400">Authoritative data:</span>
+            Protected Planet (WDPA) · Hansen Global Forest Change (Esri Living Atlas) · RCMRD Geoportal ·
+            Algerian Forest Fires (Kaggle, ODC Public Domain)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MAIN APP ===================== -->
     <div id="app" class="relative h-full w-full">
-      <!-- Map -->
       <div id="map" class="absolute inset-0"></div>
       <div id="map-compare" class="absolute inset-0 hidden"></div>
       <div id="swipe-handle" class="absolute inset-y-0 left-1/2 z-20 hidden w-1 cursor-ew-resize bg-amber-400">
-        <span class="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-amber-400 font-bold text-slate-900 shadow-lg">⇆</span>
+        <span class="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-amber-400 text-slate-900 shadow-lg" data-icon="compare" data-icon-cls="h-4 w-4"></span>
       </div>
 
       <!-- Top bar -->
       <header class="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-3">
-        <div class="pointer-events-auto flex items-center gap-2 rounded-xl bg-slate-900/80 px-3 py-2 backdrop-blur">
-          <span class="text-2xl">🌳</span>
+        <div class="pointer-events-auto flex items-center gap-2.5 rounded-xl bg-slate-900/80 px-3 py-2 ring-1 ring-white/10 backdrop-blur">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400" data-icon="leaf"></span>
           <div class="leading-tight">
-            <h1 class="text-sm font-bold sm:text-base">Gishwati Restoration Explorer</h1>
-            <p class="text-[11px] text-emerald-300">Acting Locally for Global Impact · RCMRD 2026</p>
+            <h1 class="text-sm font-bold sm:text-base"><span class="sm:hidden">Gishwati</span><span class="hidden sm:inline">Gishwati Restoration Explorer</span></h1>
+            <p class="hidden text-[11px] text-emerald-300 sm:block">Acting Locally for Global Impact · RCMRD 2026</p>
           </div>
         </div>
         <div class="pointer-events-auto flex gap-2">
-          <button id="export-btn" title="Download map image" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">📷</button>
-          <button id="share-btn" title="Copy share link" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">🔗</button>
-          <button id="theme-btn" title="Toggle theme" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">🌓</button>
-          <button id="story-btn" title="Guided tour" class="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold hover:bg-emerald-500">▶ Tour</button>
+          <button id="export-btn" title="Download map image" class="hidden h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700 sm:flex" data-icon="camera"></button>
+          <button id="share-btn" title="Copy share link" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="share"></button>
+          <button id="theme-btn" title="Toggle theme" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="moon"></button>
+          <button id="home-btn" title="Back to home" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="mapPin"></button>
+          <button id="story-btn" class="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 text-sm font-semibold hover:bg-emerald-500"><span data-icon="play" data-icon-cls="h-4 w-4"></span> Tour</button>
         </div>
       </header>
 
@@ -54,19 +121,18 @@
         </div>
       </div>
 
-      <!-- Control panel (desktop: left sidebar · mobile: bottom sheet) -->
+      <!-- Control panel -->
       <section id="panel" class="absolute z-30 flex flex-col bg-slate-900/95 backdrop-blur
-        inset-x-0 bottom-0 max-h-[55%] rounded-t-2xl ring-1 ring-white/10
+        inset-x-0 bottom-0 max-h-[58%] rounded-t-2xl ring-1 ring-white/10
         sm:inset-x-auto sm:bottom-4 sm:left-4 sm:top-20 sm:max-h-none sm:w-80 sm:rounded-2xl">
 
-        <!-- Tab bar -->
-        <nav id="tabs" class="flex shrink-0 items-center justify-between gap-1 border-b border-white/10 px-2 py-2">
-          <button data-tab="layers"   class="tab flex-1 rounded-lg py-2 text-lg" title="Layers">🗂️</button>
-          <button data-tab="time"     class="tab flex-1 rounded-lg py-2 text-lg" title="Time">⏱️</button>
-          <button data-tab="stats"    class="tab flex-1 rounded-lg py-2 text-lg" title="Statistics">📊</button>
-          <button data-tab="wildlife" class="tab flex-1 rounded-lg py-2 text-lg" title="Wildlife">🦍</button>
-          <button data-tab="ml"       class="tab flex-1 rounded-lg py-2 text-lg" title="Analysis (ML)">🧠</button>
-          <button data-tab="about"    class="tab flex-1 rounded-lg py-2 text-lg" title="About & data">ℹ️</button>
+        <nav id="tabs" class="flex shrink-0 items-center gap-1 border-b border-white/10 px-2 py-2">
+          <button data-tab="layers"   data-icon="layers"  class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Layers"></button>
+          <button data-tab="time"     data-icon="clock"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Time"></button>
+          <button data-tab="stats"    data-icon="chart"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Statistics"></button>
+          <button data-tab="wildlife" data-icon="bird"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Wildlife"></button>
+          <button data-tab="ml"       data-icon="flame"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Fire-risk model"></button>
+          <button data-tab="about"    data-icon="info"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="About &amp; data"></button>
         </nav>
 
         <div class="min-h-0 flex-1 overflow-y-auto p-4 text-sm">
@@ -74,12 +140,12 @@
           <div data-panel="layers" class="panel-body space-y-4">
             <h2 class="panel-title">Map layers</h2>
             <div id="layer-list" class="space-y-3"></div>
-            <div class="pt-2">
+            <div class="pt-1">
               <label class="mb-1 block text-xs text-slate-400">Basemap</label>
               <select id="basemap" class="w-full rounded-lg border border-white/10 bg-slate-800 px-2 py-2"></select>
             </div>
-            <button id="compare-btn" class="w-full rounded-lg bg-slate-700 py-2 font-semibold hover:bg-slate-600">🔍 Compare then / now</button>
-            <button id="measure-btn" class="w-full rounded-lg bg-slate-700 py-2 font-semibold hover:bg-slate-600">📐 Measure area</button>
+            <button id="compare-btn" class="action-btn"><span data-icon="compare" data-icon-cls="h-4 w-4"></span> Compare then / now</button>
+            <button id="measure-btn" class="action-btn"><span data-icon="ruler" data-icon-cls="h-4 w-4"></span> Measure area</button>
             <p id="measure-out" class="text-xs text-amber-300"></p>
           </div>
 
@@ -87,7 +153,7 @@
           <div data-panel="time" class="panel-body hidden space-y-4">
             <h2 class="panel-title">Forest loss through time</h2>
             <div class="flex items-center gap-3">
-              <button id="play-btn" class="rounded-lg bg-emerald-600 px-3 py-2 font-semibold hover:bg-emerald-500">▶</button>
+              <button id="play-btn" class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-500" data-icon="play" data-icon-cls="h-4 w-4"></button>
               <input id="year" type="range" min="2001" max="2023" value="2023" step="1" class="flex-1 accent-emerald-500" />
               <output id="year-out" class="w-10 text-right font-bold tabular-nums">2023</output>
             </div>
@@ -100,7 +166,7 @@
 
           <!-- STATS -->
           <div data-panel="stats" class="panel-body hidden space-y-4">
-            <h2 class="panel-title">Forest-cover trend</h2>
+            <h2 class="panel-title">Forest-cover trend (within park)</h2>
             <canvas id="trend-chart" height="160"></canvas>
             <h2 class="panel-title pt-2">Loss by year</h2>
             <canvas id="loss-chart" height="160"></canvas>
@@ -113,26 +179,28 @@
             <div id="species-list" class="grid grid-cols-1 gap-3"></div>
           </div>
 
-          <!-- ML -->
+          <!-- ML: FIRE RISK -->
           <div data-panel="ml" class="panel-body hidden space-y-4">
-            <h2 class="panel-title">Spatial analysis</h2>
-            <p class="text-xs text-slate-400">Run an analysis on the current view. NDVI is live (band math); the risk model is a stub ready for a TensorFlow.js / ONNX model.</p>
-            <button id="ndvi-btn" class="w-full rounded-lg bg-emerald-600 py-2 font-semibold hover:bg-emerald-500">🌱 Estimate vegetation health (NDVI)</button>
-            <button id="risk-btn" class="w-full rounded-lg bg-amber-600 py-2 font-semibold text-slate-900 hover:bg-amber-500">⚠️ Predict deforestation risk (model stub)</button>
-            <div id="ml-out" class="rounded-lg bg-slate-800 p-3 text-sm"></div>
+            <div>
+              <h2 class="panel-title">Climate fire-risk model</h2>
+              <p class="mt-1 text-xs text-slate-400">A logistic-regression model trained on the
+                <strong>Algerian Forest Fires</strong> dataset (Kaggle, public domain) predicts wildfire
+                likelihood from weather — the climate threat facing the restored forest.</p>
+            </div>
+            <div id="fire-inputs" class="space-y-3"></div>
+            <div id="fire-out" class="rounded-xl bg-slate-800 p-4 text-center"></div>
+            <div id="fire-meta" class="text-[11px] text-slate-500"></div>
           </div>
 
           <!-- ABOUT -->
           <div data-panel="about" class="panel-body hidden space-y-3 text-sm leading-relaxed">
             <h2 class="panel-title">About this entry</h2>
-            <p>Gishwati-Mukura National Park collapsed to ~600 ha by 2002 and is now recovering — a local restoration story feeding the global <strong>Kunming-Montreal Global Biodiversity Framework</strong>.</p>
-            <h3 class="font-semibold text-emerald-300">Data sources <span class="rounded bg-emerald-600 px-1.5 py-0.5 text-[10px]">2+ required ✓</span></h3>
-            <ul class="list-disc space-y-1 pl-5 text-slate-300">
-              <li>Hansen Global Forest Change — Esri Living Atlas</li>
-              <li>WDPA boundary — Protected Planet</li>
-              <li>Rwanda land cover — RCMRD / RCoE Geoportal</li>
-            </ul>
-            <p class="text-xs text-slate-500">Data is real: WDPA boundary + Hansen Global Forest Change (263 loss polygons, 2001–2023) clipped to the park in Google Earth Engine. Forest cover 2000: 2,810 ha · loss: 309 ha.</p>
+            <p>Gishwati-Mukura National Park collapsed to a fraction of its historic extent and is now
+              recovering — a local restoration story feeding the global
+              <strong>Kunming-Montreal Global Biodiversity Framework</strong>.</p>
+            <h3 class="flex items-center gap-1.5 font-semibold text-emerald-300"><span data-icon="database" data-icon-cls="h-4 w-4"></span> Data sources</h3>
+            <ul id="about-sources" class="space-y-1.5 text-slate-300"></ul>
+            <p id="about-note" class="text-xs text-slate-500"></p>
           </div>
         </div>
       </section>

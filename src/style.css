@@ -37,6 +37,21 @@
   color: rgb(52 211 153);
 }
 
+/* Secondary action buttons in panels */
+.action-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  background: rgb(51 65 85);
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+}
+.action-btn:hover { background: rgb(71 85 105); }
+.action-btn.active { background: rgb(245 158 11); color: rgb(15 23 42); }
+
 /* Light theme override */
 body.light {
   background: #eef2ee;

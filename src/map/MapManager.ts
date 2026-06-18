@@ -70,8 +70,13 @@ export class MapManager {
 
     fetch(BOUNDARY_URL).then((r) => r.json()).then((gj) => {
       const b = new LngLatBounds();
-      gj.features.forEach((f: any) => f.geometry.coordinates[0].forEach((c: [number, number]) => b.extend(c)));
-      this.map.fitBounds(b, { padding: 60, duration: 0 });
+      // Walk coordinates of ANY geometry type (Polygon, MultiPolygon, …).
+      const walk = (coords: any) => {
+        if (typeof coords[0] === "number") b.extend(coords as [number, number]);
+        else (coords as any[]).forEach(walk);
+      };
+      gj.features.forEach((f: any) => walk(f.geometry.coordinates));
+      if (!b.isEmpty()) this.map.fitBounds(b, { padding: 60, duration: 0 });
     });
   }
 

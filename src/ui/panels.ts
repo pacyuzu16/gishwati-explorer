@@ -42,22 +42,23 @@ export function initLayerPanel(mm: MapManager) {
   cmp.addEventListener("click", () => {
     comparing = !comparing;
     mm.toggleCompare(comparing);
-    cmp.classList.toggle("bg-amber-500", comparing);
-    cmp.classList.toggle("text-slate-900", comparing);
+    cmp.classList.toggle("active", comparing);
   });
   initSwipeDrag(mm);
 
   const meas = document.getElementById("measure-btn") as HTMLButtonElement;
+  const measOut = document.getElementById("measure-out")!;
   let measuring = false;
   meas.addEventListener("click", () => {
     measuring = !measuring;
-    if (measuring) mm.startMeasure();
-    else {
+    if (measuring) {
+      mm.startMeasure();
+      measOut.textContent = "Click the map to add points…";
+    } else {
       mm.stopMeasure();
-      document.getElementById("measure-out")!.textContent = "";
+      measOut.textContent = "";
     }
-    meas.classList.toggle("bg-amber-500", measuring);
-    meas.textContent = measuring ? "📐 Click map… (tap to reset)" : "📐 Measure area";
+    meas.classList.toggle("active", measuring);
   });
 }
 
@@ -82,16 +83,36 @@ export function initWildlife() {
   const list = document.getElementById("species-list")!;
   list.innerHTML = SPECIES.map((s) => `
     <div class="rounded-xl bg-slate-800/60 p-3">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl">${s.emoji}</span>
-        <div>
+      <div class="flex items-center gap-3">
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-sm font-bold text-emerald-300">${s.name.charAt(0)}</span>
+        <div class="min-w-0">
           <div class="font-semibold">${s.name}</div>
-          <div class="text-xs italic text-slate-400">${s.scientific}</div>
+          <div class="truncate text-xs italic text-slate-400">${s.scientific}</div>
         </div>
-        <span class="ml-auto rounded bg-red-500/20 px-2 py-0.5 text-[10px] font-semibold text-red-300">${s.status}</span>
+        <span class="ml-auto shrink-0 rounded bg-red-500/20 px-2 py-0.5 text-[10px] font-semibold text-red-300">${s.status}</span>
       </div>
       <p class="mt-2 text-xs text-slate-300">${s.note}</p>
     </div>`).join("");
+}
+
+export function renderAbout() {
+  const ul = document.getElementById("about-sources");
+  if (ul)
+    ul.innerHTML = [
+      "Hansen Global Forest Change — Esri Living Atlas",
+      "WDPA boundary — Protected Planet",
+      "Rwanda land cover — RCMRD / RCoE Geoportal",
+      "Algerian Forest Fires — Kaggle (ODC Public Domain)",
+    ]
+      .map(
+        (s) =>
+          `<li class="flex items-start gap-2"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></span><span>${s}</span></li>`
+      )
+      .join("");
+  const note = document.getElementById("about-note");
+  if (note)
+    note.textContent =
+      "Data is real: WDPA boundary + Hansen Global Forest Change (263 loss polygons, 2001–2023) clipped to the park in Google Earth Engine. Forest cover 2000: 2,810 ha · loss: 309 ha.";
 }
 
 export function renderKmgbf() {
