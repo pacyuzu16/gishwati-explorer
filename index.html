@@ -99,11 +99,12 @@
           </div>
         </div>
         <div class="pointer-events-auto flex gap-2">
-          <button id="export-btn" title="Download map image" class="hidden h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700 sm:flex" data-icon="camera"></button>
-          <button id="share-btn" title="Copy share link" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="share"></button>
-          <button id="theme-btn" title="Toggle theme" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="moon"></button>
-          <button id="home-btn" title="Back to home" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="mapPin"></button>
-          <button id="story-btn" class="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 text-sm font-semibold hover:bg-emerald-500"><span data-icon="play" data-icon-cls="h-4 w-4"></span> Tour</button>
+          <button id="recenter-btn" data-tip="Recenter on the park" aria-label="Recenter on the park" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="locate"></button>
+          <button id="export-btn" data-tip="Download map image" aria-label="Download map image" class="hidden h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700 sm:flex" data-icon="camera"></button>
+          <button id="share-btn" data-tip="Copy share link" aria-label="Copy share link" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="share"></button>
+          <button id="theme-btn" data-tip="Toggle light / dark" aria-label="Toggle light or dark theme" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="moon"></button>
+          <button id="home-btn" data-tip="Back to home page" aria-label="Back to home page" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/80 ring-1 ring-white/10 backdrop-blur hover:bg-slate-700" data-icon="home"></button>
+          <button id="story-btn" data-tip="Guided tour" aria-label="Start guided tour" class="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 text-sm font-semibold hover:bg-emerald-500"><span data-icon="play" data-icon-cls="h-4 w-4"></span> Tour</button>
         </div>
       </header>
 
@@ -129,12 +130,12 @@
         sm:inset-x-auto sm:bottom-4 sm:left-4 sm:top-20 sm:max-h-none sm:w-80 sm:rounded-2xl">
 
         <nav id="tabs" class="flex shrink-0 items-center gap-1 border-b border-white/10 px-2 py-2">
-          <button data-tab="layers"   data-icon="layers"  class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Layers"></button>
-          <button data-tab="time"     data-icon="clock"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Time"></button>
-          <button data-tab="stats"    data-icon="chart"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Statistics"></button>
-          <button data-tab="wildlife" data-icon="bird"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Wildlife"></button>
-          <button data-tab="ml"       data-icon="flame"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="Fire-risk model"></button>
-          <button data-tab="about"    data-icon="info"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" title="About &amp; data"></button>
+          <button data-tab="layers"   data-icon="layers"  class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="Map layers" aria-label="Map layers"></button>
+          <button data-tab="time"     data-icon="clock"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="Loss over time" aria-label="Forest loss over time"></button>
+          <button data-tab="stats"    data-icon="chart"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="Stats & insights" aria-label="Statistics and insights"></button>
+          <button data-tab="wildlife" data-icon="bird"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="Wildlife" aria-label="Wildlife"></button>
+          <button data-tab="ml"       data-icon="flame"   class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="Fire-risk model" aria-label="Fire-risk model"></button>
+          <button data-tab="about"    data-icon="info"    class="tab flex flex-1 items-center justify-center rounded-lg py-2" data-tip="About & data" aria-label="About and data"></button>
         </nav>
 
         <div class="min-h-0 flex-1 overflow-y-auto p-4 text-sm">

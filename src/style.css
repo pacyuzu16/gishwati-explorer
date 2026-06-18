@@ -52,6 +52,33 @@
 .action-btn:hover { background: rgb(71 85 105); }
 .action-btn.active { background: rgb(245 158 11); color: rgb(15 23 42); }
 
+/* Instant styled tooltips (native title has a long delay) */
+[data-tip] { position: relative; }
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #0f172a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 70;
+  pointer-events: none;
+}
+
+/* Keep MapLibre zoom/compass controls clear of the top header bar */
+.maplibregl-ctrl-top-right { margin-top: 64px; }
+@media (min-width: 640px) {
+  .maplibregl-ctrl-top-right { margin-top: 60px; }
+}
+
 /* Light theme override */
 body.light {
   background: #eef2ee;

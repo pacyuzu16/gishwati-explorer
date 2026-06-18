@@ -16,6 +16,7 @@ export class MapManager {
   map: MlMap;
   private compare: MlMap | null = null;
   private measuring = false;
+  private parkBounds: LngLatBounds | null = null;
   private measurePts: [number, number][] = [];
 
   readonly layers: LayerDef[] = [
@@ -78,7 +79,10 @@ export class MapManager {
         else (coords as any[]).forEach(walk);
       };
       gj.features.forEach((f: any) => walk(f.geometry.coordinates));
-      if (!b.isEmpty()) this.map.fitBounds(b, { padding: 60, duration: 0 });
+      if (!b.isEmpty()) {
+        this.parkBounds = b;
+        this.map.fitBounds(b, { padding: 60, duration: 0 });
+      }
     });
   }
 
@@ -114,6 +118,12 @@ export class MapManager {
 
   flyTo(center: [number, number], zoom: number) {
     this.map.flyTo({ center, zoom, duration: 1500, essential: true });
+  }
+
+  /** Recenter / zoom the map back to the park extent. */
+  recenter() {
+    if (this.parkBounds) this.map.fitBounds(this.parkBounds, { padding: 60, duration: 800 });
+    else this.map.flyTo({ center: CENTER, zoom: ZOOM, duration: 800 });
   }
 
   bbox(): [number, number, number, number] {

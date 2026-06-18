@@ -46,6 +46,7 @@ const showHome = () => {
 };
 document.getElementById("enter-btn")!.addEventListener("click", showApp);
 document.getElementById("home-btn")!.addEventListener("click", showHome);
+document.getElementById("recenter-btn")!.addEventListener("click", () => mm.recenter());
 
 /* ---- Time slider + play ---- */
 const yearInput = document.getElementById("year") as HTMLInputElement;
