@@ -121,6 +121,25 @@ body.light .tab { color: #64748b; }
 body.light .tab.active { background: rgb(16 185 129 / 0.15); color: #047857; }
 body.light .panel-title { color: #047857; }
 
+/* ---- Light theme: landing / home page ---- */
+body.light #landing > div {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f8fafc 45%, #eef2f6 100%);
+  color: #0f172a;
+}
+body.light #landing .opacity-20 { opacity: 0.1; }
+body.light #landing h1 { color: #0f172a; }
+body.light #landing .text-emerald-400 { color: #059669; }
+body.light #landing .text-emerald-300 { color: #047857; }
+body.light #landing .text-emerald-300\/80 { color: rgb(4 120 87 / 0.9); }
+body.light #landing .text-slate-300 { color: #334155; }
+body.light #landing .text-slate-400 { color: #475569; }
+body.light #landing .text-slate-500 { color: #64748b; }
+body.light #landing .text-red-400 { color: #dc2626; }
+body.light #landing .text-amber-400 { color: #d97706; }
+body.light #landing .bg-white\/5 { background: #ffffff; }
+body.light #landing .border-white\/10 { border-color: #e2e8f0; }
+body.light #landing .border-emerald-500\/30 { border-color: rgb(5 150 105 / 0.4); }
+
 /* species initial-avatars & badges keep their tints (readable on light) */
 
 /* Map popups */

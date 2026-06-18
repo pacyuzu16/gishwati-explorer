@@ -86,8 +86,16 @@ playBtn.addEventListener("click", () => {
   }, 600);
 });
 
-/* ---- Theme toggle ---- */
+/* ---- Theme: follow system default, with manual override ---- */
+const lightMq = window.matchMedia("(prefers-color-scheme: light)");
+let themeManual = false;
+const applySystemTheme = () => {
+  if (!themeManual) document.body.classList.toggle("light", lightMq.matches);
+};
+applySystemTheme();
+lightMq.addEventListener("change", applySystemTheme);
 document.getElementById("theme-btn")!.addEventListener("click", () => {
+  themeManual = true; // user override stops following the system
   document.body.classList.toggle("light");
 });
 
