@@ -7,10 +7,14 @@ import type { LayerDef } from "../lib/types";
 const BOUNDARY_URL = "data/gishwati_boundary.geojson";
 const LOSS_URL = "data/forest_loss.geojson";
 
+// Esri Wayback historical imagery (canonical release IDs) for the before/after swipe.
+const WAYBACK_THEN = { release: 31144, label: "2015" }; // 2015-09-16, around gazettement
+const waybackTiles = (release: number) =>
+  `https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/${release}/{z}/{y}/{x}`;
+
 export class MapManager {
   map: MlMap;
   private compare: MlMap | null = null;
-  private basemapId = "satellite";
   private measuring = false;
   private measurePts: [number, number][] = [];
 
@@ -99,7 +103,6 @@ export class MapManager {
   }
 
   setBasemap(id: string) {
-    this.basemapId = id;
     const c = this.map.getCenter();
     const z = this.map.getZoom();
     this.map.setStyle(this.style(id));
@@ -128,20 +131,40 @@ export class MapManager {
     a.click();
   }
 
-  /* ---- Compare (swipe) ---- */
+  /* ---- Compare (swipe): historical 2015 imagery (left) vs current (right) ---- */
   toggleCompare(on: boolean) {
     const area = document.getElementById("map-compare")!;
     const handle = document.getElementById("swipe-handle")!;
     area.classList.toggle("hidden", !on);
     handle.classList.toggle("hidden", !on);
+    this.toggleCompareLabels(on);
     if (on) {
-      this.compare = new maplibregl.Map({ container: "map-compare", style: this.style(this.basemapId), center: this.map.getCenter(), zoom: this.map.getZoom(), interactive: false });
+      // compare map shows historical (2015) Esri Wayback imagery
+      const style: any = {
+        version: 8,
+        sources: { wayback: { type: "raster", tiles: [waybackTiles(WAYBACK_THEN.release)], tileSize: 256, attribution: "Historical imagery © Esri Wayback" } },
+        layers: [{ id: "wayback", type: "raster", source: "wayback" }],
+      };
+      this.compare = new maplibregl.Map({ container: "map-compare", style, center: this.map.getCenter(), zoom: this.map.getZoom(), interactive: false });
       this.map.on("move", this.syncCompare);
       this.setSwipe(0.5);
     } else if (this.compare) {
       this.map.off("move", this.syncCompare);
       this.compare.remove();
       this.compare = null;
+    }
+  }
+  private toggleCompareLabels(on: boolean) {
+    const existing = document.getElementById("cmp-banner");
+    if (on && !existing) {
+      const d = document.createElement("div");
+      d.id = "cmp-banner";
+      d.innerHTML = `<span class="text-amber-300">◀ ${WAYBACK_THEN.label}</span> &nbsp;drag to compare&nbsp; <span class="text-emerald-300">now ▶</span>`;
+      d.className =
+        "pointer-events-none absolute left-1/2 top-3 z-40 -translate-x-1/2 rounded-full bg-slate-900/85 px-4 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 backdrop-blur";
+      document.getElementById("app")?.appendChild(d);
+    } else if (!on) {
+      existing?.remove();
     }
   }
   private syncCompare = () => {
