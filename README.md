@@ -11,21 +11,42 @@ collapsed to ~600 ha by 2002 and is recovering — linked to the global
 - **Vite + TypeScript** (modular: `src/map`, `src/ui`, `src/lib`)
 - **Tailwind CSS v4** (responsive: desktop sidebar ↔ mobile bottom sheet)
 - **MapLibre GL JS** (maps), **Chart.js** (stats), **Turf** (area measure)
-- **ML-ready**: `src/lib/ml.ts` is a `MlProvider` interface stubbed for
-  TensorFlow.js / ONNX Runtime Web
+- **Inline SVG icon set** (`src/lib/icons.ts`, Lucide-style) — no emoji
+- **In-browser ML**: logistic-regression fire-risk model, no ML runtime
 
 ## Features
+A **landing page** introduces the story; "Enter the Explorer" opens the app.
+
 | Tab | What it does |
 |-----|--------------|
-| 🗂️ Layers | Toggle + opacity per layer, basemap switch, **compare swipe**, **measure area** |
-| ⏱️ Time | Year slider with **play animation**; live loss readout |
-| 📊 Stats | Forest-cover trend, loss-by-year bar, **KMGBF 30×30 tracker** |
-| 🦍 Wildlife | Species spotlight cards (chimp, golden monkey, crane…) |
-| 🧠 Analysis | **NDVI** (live band-math hook) + **deforestation-risk** model stub |
-| ℹ️ About | Narrative + data-source attribution |
+| Layers | Toggle + opacity per layer, basemap switch, **compare swipe**, **measure area** |
+| Time | Year slider with **play animation**; live loss readout |
+| Stats | Forest-cover trend, loss-by-year bar, **KMGBF tracker** (real EE figures) |
+| Wildlife | Species spotlight cards (chimp, golden monkey, crane…) |
+| Fire-risk | **ML model** — predict wildfire likelihood from weather (see below) |
+| About | Narrative + data-source attribution |
 
-Plus a **guided tour** (▶ Tour) that flies through the restoration story, and a
-light/dark theme toggle.
+Plus a **guided tour** that flies through the restoration story, light/dark
+theme, share + map-image export.
+
+## Machine learning — climate fire-risk
+`ml/train_fire_model.py` trains a logistic-regression classifier on the
+**Algerian Forest Fires Dataset** (featured on Kaggle; ODC Public Domain,
+sourced from the public UCI mirror). It predicts *fire / not-fire* from weather
+(temperature, humidity, wind, rain), evaluates on an 80/20 split (~78% test
+accuracy), and exports weights to `public/model/fire_model.json`.
+
+The browser loads those weights (`src/lib/fireModel.ts`) and runs inference live
+as you move the sliders — **no TensorFlow.js / heavy runtime, tiny payload**.
+It ties the climate theme to the forest: hotter, drier weather → higher fire
+risk to the recovering canopy.
+
+Retrain / refresh:
+```bash
+curl -sL -o /tmp/algerian.csv \
+  "https://archive.ics.uci.edu/ml/machine-learning-databases/00547/Algerian_forest_fires_dataset_UPDATE.csv"
+python3 ml/train_fire_model.py /tmp/algerian.csv   # rewrites public/model/fire_model.json
+```
 
 ## Develop
 ```bash
@@ -63,9 +84,3 @@ The Earth Engine script that produced these is in `earth-engine/gishwati_export.
 3. **Land cover** → [RCMRD Geoportal](https://geoportal.rcmrd.org) → Rwanda land
    cover; replace the `landcover-fill` placeholder.
 4. Update `TREND` / `KMGBF` numbers in `src/lib/data.ts` with real hectares.
-
-## Adding a real ML model later
-`src/lib/ml.ts` implements `MlProvider`. Replace `StubMlProvider` with a class
-that loads a model (`tf.loadLayersModel(...)` or `ort.InferenceSession.create(...)`),
-builds an input tensor from tiles in the given `bbox`, and returns an `MlResult`.
-The UI already calls `ndvi()` and `deforestationRisk()` — no UI changes needed.

@@ -26,15 +26,3 @@ export interface StoryStep {
   center: [number, number];
   zoom: number;
 }
-
-export interface MlResult {
-  label: string;
-  value: string;
-  detail: string;
-}
-
-/** Pluggable ML interface — drop a real TF.js / ONNX model behind this later. */
-export interface MlProvider {
-  ndvi(bbox: [number, number, number, number]): Promise<MlResult>;
-  deforestationRisk(bbox: [number, number, number, number]): Promise<MlResult>;
-}
