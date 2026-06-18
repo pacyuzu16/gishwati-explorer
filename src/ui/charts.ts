@@ -1,5 +1,5 @@
 import { Chart, registerables } from "chart.js";
-import { TREND } from "../lib/data";
+import { TREND, NDVI_SERIES } from "../lib/data";
 
 Chart.register(...registerables);
 
@@ -26,6 +26,34 @@ export function renderTrendChart() {
     options: {
       plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: true, ticks: tick, grid }, x: { ticks: tick, grid } },
+    },
+  });
+}
+
+/** Canopy greenness (NDVI) recovery line — the regrowth signal. */
+export function renderNdviChart() {
+  const el = document.getElementById("ndvi-chart") as HTMLCanvasElement | null;
+  if (!el) return;
+  new Chart(el, {
+    type: "line",
+    data: {
+      labels: NDVI_SERIES.labels,
+      datasets: [{
+        label: "Mean NDVI",
+        data: NDVI_SERIES.values,
+        borderColor: "#34d399",
+        backgroundColor: "rgba(52,211,153,0.18)",
+        fill: true,
+        tension: 0.35,
+        pointRadius: 2,
+      }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0.7, max: 0.82, ticks: { ...tick, callback: (v) => Number(v).toFixed(2) }, grid },
+        x: { ticks: tick, grid },
+      },
     },
   });
 }

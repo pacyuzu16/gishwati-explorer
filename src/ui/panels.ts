@@ -100,8 +100,8 @@ export function renderAbout() {
   if (ul)
     ul.innerHTML = [
       "Hansen Global Forest Change — Esri Living Atlas",
-      "WDPA boundary — Protected Planet",
-      "Rwanda land cover — RCMRD / RCoE Geoportal",
+      "WDPA park boundary — Protected Planet",
+      "Landsat 8/9 NDVI — via Google Earth Engine",
       "Algerian Forest Fires — Kaggle (ODC Public Domain)",
     ]
       .map(

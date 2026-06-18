@@ -16,7 +16,6 @@ export class MapManager {
 
   readonly layers: LayerDef[] = [
     { id: "boundary-line", label: "Park boundary (WDPA)", visible: true, swatch: "#ffd166" },
-    { id: "landcover-fill", label: "Land cover (RCMRD)", visible: false, swatch: "#2a9d8f" },
     { id: "loss-fill", label: "Forest loss (Hansen)", visible: true, swatch: "#e63946" },
   ];
 
@@ -48,7 +47,6 @@ export class MapManager {
 
     this.map.addSource("boundary", { type: "geojson", data: BOUNDARY_URL });
     this.map.addLayer({ id: "boundary-line", type: "line", source: "boundary", paint: { "line-color": "#ffd166", "line-width": 3 } });
-    this.map.addLayer({ id: "landcover-fill", type: "fill", source: "boundary", layout: { visibility: "none" }, paint: { "fill-color": "#2a9d8f", "fill-opacity": 0.35 } });
 
     this.map.addSource("loss", { type: "geojson", data: LOSS_URL });
     this.map.addLayer({ id: "loss-fill", type: "fill", source: "loss", paint: { "fill-color": LOSS_COLOR, "fill-opacity": 0.85, "fill-outline-color": "#7a0c14" } });

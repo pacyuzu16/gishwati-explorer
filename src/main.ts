@@ -1,7 +1,8 @@
 import "./style.css";
 import { MapManager } from "./map/MapManager";
 import { initTabs, initLayerPanel, initWildlife, renderKmgbf, renderAbout } from "./ui/panels";
-import { renderTrendChart, renderLossChart } from "./ui/charts";
+import { renderTrendChart, renderLossChart, renderNdviChart } from "./ui/charts";
+import { renderInsights } from "./ui/insights";
 import { initStory } from "./ui/story";
 import { initFirePanel } from "./ui/firePanel";
 import { icon } from "./lib/icons";
@@ -18,6 +19,8 @@ initTabs();
 initWildlife();
 renderKmgbf();
 renderAbout();
+renderInsights();
+renderNdviChart();
 renderTrendChart();
 renderLossChart();
 initStory(mm);

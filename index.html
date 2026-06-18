@@ -72,7 +72,7 @@
           <!-- data sources footer -->
           <div class="border-t border-white/10 pt-5 text-xs text-slate-500">
             <span class="text-slate-400">Authoritative data:</span>
-            Protected Planet (WDPA) · Hansen Global Forest Change (Esri Living Atlas) · RCMRD Geoportal ·
+            Protected Planet (WDPA) · Hansen Global Forest Change (Esri Living Atlas) · Landsat NDVI (Google Earth Engine) ·
             Algerian Forest Fires (Kaggle, ODC Public Domain)
           </div>
         </div>
@@ -166,10 +166,14 @@
 
           <!-- STATS -->
           <div data-panel="stats" class="panel-body hidden space-y-4">
-            <h2 class="panel-title">Forest-cover trend (within park)</h2>
-            <canvas id="trend-chart" height="160"></canvas>
-            <h2 class="panel-title pt-2">Loss by year</h2>
-            <canvas id="loss-chart" height="160"></canvas>
+            <div id="insights"></div>
+            <h2 class="panel-title flex items-center gap-1.5">Canopy greenness (NDVI) — recovery</h2>
+            <canvas id="ndvi-chart" height="150"></canvas>
+            <p class="text-[11px] text-slate-500">Mean Landsat NDVI within the park. Higher = denser, healthier canopy.</p>
+            <h2 class="panel-title pt-1">Forest cover (within park)</h2>
+            <canvas id="trend-chart" height="150"></canvas>
+            <h2 class="panel-title pt-1">Loss by year</h2>
+            <canvas id="loss-chart" height="150"></canvas>
             <div id="kmgbf" class="rounded-lg bg-emerald-950/60 p-3 ring-1 ring-emerald-500/30"></div>
           </div>
 
