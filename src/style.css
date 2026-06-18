@@ -79,18 +79,49 @@
   .maplibregl-ctrl-top-right { margin-top: 60px; }
 }
 
-/* Light theme override */
-body.light {
-  background: #eef2ee;
-  color: #16241d;
-}
+/* ---- Light theme ----
+   The header, swipe banner and map controls stay dark (they float over the
+   satellite map and read well in both modes). We re-map the dark Tailwind
+   utilities used inside the panel + story overlay to light equivalents. */
+body.light { background: #eef2ee; }
+
 body.light #panel,
-body.light header > div,
 body.light #story-overlay > div {
-  background: rgb(255 255 255 / 0.95);
-  color: #16241d;
+  background: #ffffff;
+  color: #0f172a;
 }
-body.light .tab { color: #5b6b62; }
+body.light #panel { border: 1px solid #e2e8f0; }
+
+/* text colors */
+body.light #panel .text-white,
+body.light #panel .text-slate-100,
+body.light #story-overlay .text-white { color: #0f172a; }
+body.light #panel .text-slate-300,
+body.light #story-overlay .text-slate-300 { color: #334155; }
+body.light #panel .text-slate-400,
+body.light #story-overlay .text-slate-400 { color: #475569; }
+body.light #panel .text-slate-500 { color: #64748b; }
+
+/* surfaces */
+body.light #panel .bg-slate-800,
+body.light #panel .bg-slate-800\/60 { background: #f1f5f1; }
+body.light #panel .bg-emerald-950\/60 { background: #e7f5ee; }
+body.light #panel .bg-slate-700 { background: #cbd5e1; }
+body.light #panel select {
+  background: #f1f5f1;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+body.light #panel .action-btn { background: #e2e8e2; color: #0f172a; }
+body.light #panel .action-btn:hover { background: #d4ddd4; }
+body.light #panel .ring-emerald-500\/30 { --tw-ring-color: rgb(16 185 129 / 0.4); }
+
+/* tabs */
+body.light .tab { color: #64748b; }
+body.light .tab.active { background: rgb(16 185 129 / 0.15); color: #047857; }
+body.light .panel-title { color: #047857; }
+
+/* species initial-avatars & badges keep their tints (readable on light) */
 
 /* Map popups */
 .maplibregl-popup-content {
