@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "name": "gishwati_mukura_boundary_PLACEHOLDER",
+  "_note": "APPROXIMATE placeholder outline. Replace with the official Gishwati-Mukura National Park polygon downloaded from Protected Planet (WDPA).",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Gishwati-Mukura National Park", "designation": "National Park / UNESCO Biosphere Reserve", "wdpa_id": "REPLACE_ME" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [29.330, -1.760],
+          [29.405, -1.755],
+          [29.420, -1.815],
+          [29.385, -1.860],
+          [29.330, -1.850],
+          [29.310, -1.805],
+          [29.330, -1.760]
+        ]]
+      }
+    }
+  ]
+}

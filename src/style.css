@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+/* Brand tokens (usable as e.g. text-forest, bg-canopy) */
+@theme {
+  --color-forest: #1f5a43;
+  --color-canopy: #2a9d8f;
+  --color-gold: #e9a800;
+}
+
+/* Active tab styling */
+.tab {
+  color: rgb(148 163 184);
+}
+.tab:hover {
+  background: rgb(255 255 255 / 0.06);
+}
+.tab.active {
+  background: rgb(16 185 129 / 0.2);
+  color: rgb(110 231 183);
+}
+
+.panel-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgb(52 211 153);
+}
+
+/* Light theme override */
+body.light {
+  background: #eef2ee;
+  color: #16241d;
+}
+body.light #panel,
+body.light header > div,
+body.light #story-overlay > div {
+  background: rgb(255 255 255 / 0.95);
+  color: #16241d;
+}
+body.light .tab { color: #5b6b62; }
+
+/* Map popups */
+.maplibregl-popup-content {
+  border-radius: 10px;
+  font-size: 13px;
+  color: #16241d;
+}
+
+/* Mobile drag affordance on the bottom sheet */
+#panel::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 36px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.25);
+  transform: translateX(-50%);
+}
+@media (min-width: 640px) {
+  #panel::before { display: none; }
+}
