@@ -34,7 +34,7 @@ export function renderTrendChart() {
 export async function renderLossChart() {
   const el = document.getElementById("loss-chart") as HTMLCanvasElement | null;
   if (!el) return;
-  const gj = await fetch("data/forest_loss_sample.geojson").then((r) => r.json());
+  const gj = await fetch("data/forest_loss.geojson").then((r) => r.json());
   const byYear = new Map<number, number>();
   for (const f of gj.features) {
     const y = f.properties.loss_year as number;

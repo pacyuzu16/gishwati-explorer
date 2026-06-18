@@ -97,11 +97,11 @@ export function initWildlife() {
 export function renderKmgbf() {
   const el = document.getElementById("kmgbf");
   if (!el) return;
-  const pct = Math.round((KMGBF.restoredHa / KMGBF.baselineHa) * 100);
+  const pct = Math.round((KMGBF.remainingHa / KMGBF.forest2000Ha) * 100);
   el.innerHTML = `
-    <div class="mb-1 text-xs font-semibold text-emerald-300">KMGBF Target 2 — restore degraded ecosystems</div>
+    <div class="mb-1 text-xs font-semibold text-emerald-300">KMGBF Target 2 — halt &amp; reverse forest loss</div>
     <div class="h-3 w-full overflow-hidden rounded-full bg-slate-700">
       <div class="h-full rounded-full bg-emerald-500" style="width:${Math.min(100, pct)}%"></div>
     </div>
-    <div class="mt-1 text-xs text-slate-300">${KMGBF.restoredHa.toLocaleString()} ha recovered of ${KMGBF.baselineHa.toLocaleString()} ha historic extent (~${pct}%).</div>`;
+    <div class="mt-1 text-xs text-slate-300">${KMGBF.remainingHa.toLocaleString()} ha of ${KMGBF.forest2000Ha.toLocaleString()} ha forest retained since 2000 (~${pct}%). ${KMGBF.lossHa} ha lost — the restoration gap.</div>`;
 }

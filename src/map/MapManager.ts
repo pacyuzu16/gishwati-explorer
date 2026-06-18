@@ -5,7 +5,7 @@ import { BASEMAPS, CENTER, ZOOM, LOSS_COLOR } from "../lib/data";
 import type { LayerDef } from "../lib/types";
 
 const BOUNDARY_URL = "data/gishwati_boundary.geojson";
-const LOSS_URL = "data/forest_loss_sample.geojson";
+const LOSS_URL = "data/forest_loss.geojson";
 
 export class MapManager {
   map: MlMap;
@@ -58,8 +58,9 @@ export class MapManager {
 
     this.map.on("click", "loss-fill", (e) => {
       const p = e.features![0].properties as any;
+      const ha = p.count != null ? (p.count * 0.81).toFixed(1) + " ha" : "—";
       new Popup().setLngLat(e.lngLat).setHTML(
-        `<strong>Forest loss</strong><br>Loss year: <strong>${p.loss_year}</strong><br>Tree cover (2000): ${p.treecover2000}%`
+        `<strong>Forest loss</strong><br>Loss year: <strong>${p.loss_year}</strong><br>Patch area: ${ha}`
       ).addTo(this.map);
     });
     this.map.on("mouseenter", "loss-fill", () => (this.map.getCanvas().style.cursor = "pointer"));

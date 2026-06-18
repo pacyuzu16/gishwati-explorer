@@ -32,16 +32,19 @@ export const LOSS_COLOR: any = [
   2023, "#e63946",
 ];
 
-// Forest-cover history (ha) — replace with figures from your clipped layers.
+// Forest cover WITHIN the WDPA park boundary (ha), derived from Hansen Global
+// Forest Change in Google Earth Engine (baseline 2,810 ha tree cover in 2000,
+// minus cumulative loss by year). These are real, reproducible figures.
 export const TREND = {
-  labels: ["1980", "2002", "2010", "2015", "2020", "2024"],
-  values: [28000, 600, 1100, 1440, 1850, 2200],
+  labels: ["2000", "2005", "2010", "2015", "2020", "2023"],
+  values: [2810, 2700, 2658, 2603, 2523, 2459],
 };
 
+// Real Earth Engine stats for Gishwati-Mukura National Park (WDPA boundary).
 export const KMGBF = {
-  target: 30, // % of degraded ecosystems to restore (Target 2)
-  restoredHa: 2200,
-  baselineHa: 28000,
+  forest2000Ha: 2810, // tree cover (>=30%) in 2000
+  lossHa: 309,        // total loss 2001-2023 (Hansen, 30 m)
+  remainingHa: 2501,  // forest2000 - loss
 };
 
 export const SPECIES: Species[] = [

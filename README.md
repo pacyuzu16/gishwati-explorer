@@ -42,9 +42,17 @@ npm run preview  # preview the build
 
 ---
 
-## ⚠️ Replace the sample data before submitting (eligibility!)
-Entries need **≥2 approved datasets** or they're disqualified. Swap the files in
-`public/data/`:
+## ✅ Real data is loaded (eligibility met)
+`public/data/` now holds **real** datasets pulled via Google Earth Engine:
+- `gishwati_boundary.geojson` — official **WDPA** boundary (Protected Planet)
+- `forest_loss.geojson` — **Hansen Global Forest Change** (263 loss polygons, 2001–2023)
+
+Plus Rwanda land cover (RCMRD) as the optional third layer → **≥2 approved sources ✓**.
+Real stats: forest cover 2000 = **2,810 ha**, loss 2001–2023 = **309 ha**.
+
+The Earth Engine script that produced these is in `earth-engine/gishwati_export.js`.
+
+### To refresh or extend the data, swap files in `public/data/`:
 
 1. **Park boundary** → [Protected Planet](https://protectedplanet.net) → search
    "Gishwati-Mukura" → save as `gishwati_boundary.geojson` (keep `wdpa_id`).
