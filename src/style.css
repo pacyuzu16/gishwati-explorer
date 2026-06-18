@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "maplibre-gl/dist/maplibre-gl.css";
 
+/* MapLibre ships `.maplibregl-map { position: relative }`, which beats the
+   Tailwind `absolute` utility (utilities are in a cascade layer). Force the
+   map containers to fill their parent via higher-specificity ID rules. */
+#map,
+#map-compare {
+  position: absolute;
+  inset: 0;
+}
+
 /* Brand tokens (usable as e.g. text-forest, bg-canopy) */
 @theme {
   --color-forest: #1f5a43;
