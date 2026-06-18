@@ -75,3 +75,29 @@ document.getElementById("risk-btn")!.addEventListener("click", async () => {
 document.getElementById("theme-btn")!.addEventListener("click", () => {
   document.body.classList.toggle("light");
 });
+
+/* ---- Share & export ---- */
+function toast(msg: string) {
+  const t = document.createElement("div");
+  t.textContent = msg;
+  t.className =
+    "fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold shadow-lg";
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+document.getElementById("export-btn")!.addEventListener("click", () => {
+  mm.exportImage();
+  toast("Map image downloaded 📷");
+});
+
+document.getElementById("share-btn")!.addEventListener("click", async () => {
+  const url = window.location.href;
+  const data = { title: "Gishwati Restoration Explorer", text: "A Rwandan forest's comeback — RCMRD Arts & Maps 2026", url };
+  if (navigator.share) {
+    try { await navigator.share(data); } catch { /* user cancelled */ }
+  } else {
+    await navigator.clipboard.writeText(url);
+    toast("Link copied to clipboard 🔗");
+  }
+});

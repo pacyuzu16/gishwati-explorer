@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Gishwati Restoration Explorer · RCMRD Arts & Maps 2026</title>
     <meta name="description" content="Interactive map of forest loss & recovery in Gishwati-Mukura National Park, Rwanda — acting locally for global impact." />
+    <!-- Social preview (helps when sharing the link for People's Choice voting) -->
+    <meta property="og:title" content="Gishwati Restoration Explorer" />
+    <meta property="og:description" content="A Rwandan forest's comeback for the planet — RCMRD Arts & Maps 2026, Acting Locally for Global Impact." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./social-preview.png" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="h-full overflow-hidden bg-slate-900 text-slate-100">
     <div id="app" class="relative h-full w-full">
@@ -25,6 +31,8 @@
           </div>
         </div>
         <div class="pointer-events-auto flex gap-2">
+          <button id="export-btn" title="Download map image" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">📷</button>
+          <button id="share-btn" title="Copy share link" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">🔗</button>
           <button id="theme-btn" title="Toggle theme" class="rounded-lg bg-slate-900/80 px-3 py-2 text-sm backdrop-blur hover:bg-slate-700">🌓</button>
           <button id="story-btn" title="Guided tour" class="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold hover:bg-emerald-500">▶ Tour</button>
         </div>

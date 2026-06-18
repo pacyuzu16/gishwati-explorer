@@ -27,6 +27,7 @@ export class MapManager {
       center: CENTER,
       zoom: ZOOM,
       attributionControl: { compact: true },
+      preserveDrawingBuffer: true, // required so we can export the map as a PNG
     });
     this.map.addControl(new maplibregl.NavigationControl(), "top-right");
     this.map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
@@ -111,6 +112,16 @@ export class MapManager {
   bbox(): [number, number, number, number] {
     const b = this.map.getBounds();
     return [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
+  }
+
+  /** Download the current map view as a PNG (for sharing / People's Choice). */
+  exportImage(filename = "gishwati-restoration.png") {
+    this.map.redraw();
+    const url = this.map.getCanvas().toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
   }
 
   /* ---- Compare (swipe) ---- */
