@@ -17,6 +17,7 @@ export class MapManager {
   private compare: MlMap | null = null;
   private measuring = false;
   private parkBounds: LngLatBounds | null = null;
+  private labelsAdded = false;
   private measurePts: [number, number][] = [];
 
   readonly layers: LayerDef[] = [
@@ -83,7 +84,35 @@ export class MapManager {
         this.parkBounds = b;
         this.map.fitBounds(b, { padding: 60, duration: 0 });
       }
+      this.addParkLabels(gj);
     });
+  }
+
+  /** Label the two largest park blocks (north = Gishwati, south = Mukura). */
+  private addParkLabels(gj: any) {
+    if (this.labelsAdded) return;
+    const rings: [number, number][][] = [];
+    const collect = (geom: any) => {
+      if (geom.type === "Polygon") rings.push(geom.coordinates[0]);
+      else if (geom.type === "MultiPolygon") geom.coordinates.forEach((p: any) => rings.push(p[0]));
+    };
+    gj.features.forEach((f: any) => collect(f.geometry));
+    if (!rings.length) return;
+    const info = rings.map((ring) => {
+      let sx = 0, sy = 0, minx = 180, maxx = -180, miny = 90, maxy = -90;
+      ring.forEach(([x, y]) => { sx += x; sy += y; minx = Math.min(minx, x); maxx = Math.max(maxx, x); miny = Math.min(miny, y); maxy = Math.max(maxy, y); });
+      return { c: [sx / ring.length, sy / ring.length] as [number, number], a: (maxx - minx) * (maxy - miny) };
+    });
+    info.sort((p, q) => q.a - p.a);
+    const top = info.slice(0, 2).sort((p, q) => q.c[1] - p.c[1]); // north first
+    const names = ["Gishwati Forest", "Mukura Forest"];
+    top.forEach((p, i) => {
+      const el = document.createElement("div");
+      el.textContent = names[i] || "Forest block";
+      el.className = "rounded bg-slate-900/70 px-1.5 py-0.5 text-[10px] font-semibold text-white ring-1 ring-white/25 backdrop-blur";
+      new maplibregl.Marker({ element: el }).setLngLat(p.c).addTo(this.map);
+    });
+    this.labelsAdded = true;
   }
 
   setVisible(layerId: string, visible: boolean) {

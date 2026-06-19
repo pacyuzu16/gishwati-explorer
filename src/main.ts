@@ -86,6 +86,28 @@ playBtn.addEventListener("click", () => {
   }, 600);
 });
 
+/* ---- Shareable deep-link state (tab + year in the URL hash) ---- */
+const currentTab = () =>
+  document.querySelector(".tab.active")?.getAttribute("data-tab") || "layers";
+function updateHash() {
+  const p = new URLSearchParams();
+  p.set("tab", currentTab());
+  p.set("year", yearInput.value);
+  history.replaceState(null, "", "#" + p.toString());
+}
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", updateHash));
+yearInput.addEventListener("input", updateHash);
+// Restore a shared view on load (and skip the landing page).
+(() => {
+  const h = new URLSearchParams(location.hash.replace(/^#/, ""));
+  if (![...h.keys()].length) return;
+  showApp();
+  const tab = h.get("tab");
+  if (tab) (document.querySelector(`.tab[data-tab="${tab}"]`) as HTMLElement | null)?.click();
+  const y = h.get("year");
+  if (y) { yearInput.value = y; updateYear(+y); }
+})();
+
 /* ---- Theme: follow system default, with manual override ---- */
 const lightMq = window.matchMedia("(prefers-color-scheme: light)");
 let themeManual = false;
